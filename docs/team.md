@@ -7,7 +7,7 @@ title:  Team
 
 
 ## USER 1
-***UCI Net ID***: ucinetid1
+***UCI Net ID***: rmannem
 
 ## USER 2
 ***UCI Net ID***: ucinetid2
