@@ -10,6 +10,6 @@ title: Proposal
 <p>We will extract the keywords from the user input using NLP models like text classification which allows a set of instructions to be understood by our agent. The instructions will correspond to characters, objects, and actions in the game.</p>
 
 <h2>Evaluation Plan</h2>
-<p>The first evaluation method is based on quantity. For example, provided a list of different animals or objects with a certain length, we can check how many times the AI agent can locate the right target. Tthe second evaluation method is based on accuracy. For example, with the same list used for the quantitative test, we can then check whether AI agent can perform the associated command with the animal/enemy such as "kill" or "feed" the target.</p>
+<p>The first evaluation method is based on quantity. For example, provided a list of different animals or objects with a certain length, we can check how many times the AI agent can locate the right target. The second evaluation method is based on accuracy. For example, with the same list used for the quantitative test, we can then check whether AI agent can perform the associated command with the animal/enemy such as "kill" or "feed" the target.</p>
 
 <h5>Appointment Date: 10/22/2020 11:45 AM</h5>
