@@ -1,25 +1,4 @@
 from __future__ import print_function
-# ------------------------------------------------------------------------------------------------
-# Copyright (c) 2016 Microsoft Corporation
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-# associated documentation files (the "Software"), to deal in the Software without restriction,
-# including without limitation the rights to use, copy, modify, merge, publish, distribute,
-# sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in all copies or
-# substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-# NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-# ------------------------------------------------------------------------------------------------
-
-# Tutorial sample #2: Run simple mission using raw XML
-
 from builtins import range
 from malmo import MalmoPython
 import os
@@ -32,22 +11,17 @@ else:
     import functools
     print = functools.partial(print, flush=True)
 
-# More interesting generator string: "3;7,44*49,73,35:1,159:4,95:13,35:13,159:11,95:10,159:14,159:6,35:6,95:6;12;"
-# <FlatWorldGenerator generatorString="3;7,44*49,73,35:1,159:4,95:13,35:13,159:11,95:10,159:14,159:6,35:6,95:6;12;"/>
-
-# Previous boring generator string: "3;7,220*1,5*3,2;3;,biome_1"
-
 missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
             <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             
               <About>
-                <Summary>Hello world!</Summary>
+                <Summary>Chat with Chatbot Steve</Summary>
               </About>
               
               <ServerSection>
                 <ServerInitialConditions>
                   <Time>
-                    <StartTime>12000</StartTime>
+                    <StartTime>6000</StartTime>
                     <AllowPassageOfTime>false</AllowPassageOfTime>
                   </Time>
                   <Weather>clear</Weather>
@@ -56,15 +30,19 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                 <ServerHandlers>
                   <FlatWorldGenerator generatorString="3;7,220*1,5*3,2;3;,biome_1"/>
                   <DrawingDecorator>
-                    <DrawEntity x="0"  y="227" z="8" type="Pig" />
-                    <DrawEntity x="3"  y="227" z="8" type="Cow" />
-                    <DrawEntity x="-3"  y="227" z="8" type="Chicken" />
-                    <DrawEntity x="6"  y="227" z="8" type="Sheep" />
+                    <DrawEntity x="0"  y="227" z="8" type="Pig"/>
+                    <DrawEntity x="3"  y="227" z="8" type="Cow"/>
+                    <DrawEntity x="-3"  y="227" z="8" type="Chicken"/>
+                    <DrawEntity x="6"  y="227" z="8" type="Sheep"/>
 
                     <DrawCuboid x1="-10" y1="227" z1="-10" x2="10" y2="227" z2="-10" type="fence"/>
                     <DrawCuboid x1="-10" y1="227" z1="-10" x2="-10" y2="227" z2="10" type="fence"/>
-                    <DrawCuboid x1="-10" y1="227" z1="10" x2="10" y2="227" z2="10" type="fence"/>
                     <DrawCuboid x1="10" y1="227" z1="10" x2="10" y2="227" z2="-10" type="fence"/>
+
+                    <DrawCuboid x1="-9" y1="226" z1="10" x2="9" y2="226" z2="10" type="water"/>
+                    <DrawCuboid x1="9" y1="226" z1="10" x2="9" y2="226" z2="20" type="water"/>
+                    <DrawCuboid x1="9" y1="226" z1="20" x2="-9" y2="226" z2="20" type="water"/>
+                    <DrawCuboid x1="-9" y1="226" z1="20" x2="-9" y2="226" z2="10" type="water"/>
 
                     <DrawBlock x="-5"  y="226" z="0" type="lava" />
                   </DrawingDecorator>
@@ -138,8 +116,6 @@ print("Mission running ", end=' ')
 
 # Loop until mission ends:
 while world_state.is_mission_running:
-    testInput = input()
-    print(testInput)
     #agent_host.sendCommand("turn 1")
     print(".", end="")
     time.sleep(2)
