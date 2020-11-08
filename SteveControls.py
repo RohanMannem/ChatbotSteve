@@ -1,4 +1,5 @@
 from malmo import MalmoPython
+import time
 
 class SteveControls:
 
@@ -12,3 +13,14 @@ class SteveControls:
         else:
             print("stand")
             self.agent.sendCommand("crouch 1")
+
+    def jump(self):
+        self.agent.sendCommand("jump 1")
+        time.sleep(0.5)
+        self.agent.sendCommand("jump 0")
+
+    def walk(self, times = 10):
+        for i in range(times):
+            self.agent.sendCommand("move 1")
+            time.sleep(0.1)
+        self.agent.sendCommand("move 0")

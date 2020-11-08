@@ -6,10 +6,14 @@ import inflect
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
 
+# walk 10 --> walk 10 times
+# turn 3 --> turn 3 times to the right
+
 class Reader:
     def __init__(self):
         command = input("enter your command: ")
         command = command.lower()
+        command = "I want you to " + command
         self.tags = command
         self.currentVerb = ""
         self.currentNum = 1
@@ -31,7 +35,8 @@ class Reader:
                     continue
                 if word in convert.american_number_system.keys():
                     self.currentNum = convert.american_number_system[word]
-                if POS == "VB" or POS == "VBD" or POS == "JJ":
+
+                if POS == "VB" or POS == "VBD":
                     self.flag = 1
                     self.currentVerb = word
                 if POS == "CD":

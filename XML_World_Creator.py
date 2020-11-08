@@ -180,6 +180,10 @@ while world_state.is_mission_running:
       if command == "crouch":
         steve.crouch(crouching)
         crouching = not crouching
+      elif command == "jump":
+        steve.jump()
+      elif command == "walk":
+        steve.walk()
 
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
