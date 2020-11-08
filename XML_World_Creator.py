@@ -5,6 +5,8 @@ import os
 import sys
 import time
 import random
+import SteveControls
+import reader
 
 if sys.version_info[0] == 2:
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
@@ -16,6 +18,7 @@ else:
 flowerChance = 0.01
 SIZE = 21
 waterGap = SIZE/5
+crouching = False
 
 flowerXML = ""
 for x in range (-SIZE + 4, SIZE - 3):
@@ -156,7 +159,6 @@ for retry in range(max_retries):
             time.sleep(2)
 
 # Loop until mission starts:
-print("Waiting for the mission to start ", end=' ')
 world_state = agent_host.getWorldState()
 while not world_state.has_mission_begun:
     print(".", end="")
@@ -165,14 +167,20 @@ while not world_state.has_mission_begun:
     for error in world_state.errors:
         print("Error:",error.text)
 
-print()
-print("Mission running ", end=' ')
+print("Mission running ")
 
 # Loop until mission ends:
 while world_state.is_mission_running:
-    #agent_host.sendCommand("turn 1")
-    print(".", end="")
-    time.sleep(2)
+    time.sleep(1)
+
+    commands = reader.Reader().getDict()
+    steve = SteveControls.SteveControls(agent_host)
+
+    for command, entity in commands.items():
+      if command == "crouch":
+        steve.crouch(crouching)
+        crouching = not crouching
+
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
         print("Error:",error.text)

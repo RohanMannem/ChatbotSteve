@@ -1,4 +1,5 @@
 import reader
+import SteveControls
 
 if __name__ == "__main__":
     """Sample Inputs"""
@@ -6,7 +7,9 @@ if __name__ == "__main__":
     # find forty-five cows and ninety-nine pigs
     # kill three-million cats and one billion cows
     while True:
-        read = dict(reader.Reader().getDict())
-        if not bool(read):
-            break
-        print(read)
+        commands = reader.Reader().getDict()
+        print(commands)
+        # read = dict(reader.Reader().getDict())
+        # if not bool(read):
+        #     break
+        # print(read)
