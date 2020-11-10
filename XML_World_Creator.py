@@ -1,12 +1,16 @@
 from __future__ import print_function
 from builtins import range
-from malmo import MalmoPython
 import os
 import sys
 import time
 import random
 import SteveControls
 import reader
+try:
+    from malmo import MalmoPython
+except:
+    import MalmoPython
+
 
 if sys.version_info[0] == 2:
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
@@ -178,12 +182,14 @@ while world_state.is_mission_running:
 
     for command, entity in commands.items():
       if command == "crouch":
-        steve.crouch(crouching)
+        steve.crouch(crouching, sum(entity))
         crouching = not crouching
       elif command == "jump":
-        steve.jump()
+        steve.jump(sum(entity))
       elif command == "walk":
-        steve.walk()
+        steve.walk(sum(entity))
+      elif command == "turn":
+        steve.turn(sum(entity))
 
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
