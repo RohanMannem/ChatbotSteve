@@ -11,6 +11,7 @@ try:
 except:
     import MalmoPython
 
+
 if sys.version_info[0] == 2:
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)  # flush print output immediately
 else:

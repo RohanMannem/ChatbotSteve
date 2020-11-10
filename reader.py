@@ -26,6 +26,7 @@ class Reader:
         p = inflect.engine()
         tokens = nltk.word_tokenize(self.tags)
         tags = nltk.pos_tag(tokens)
+
         basicActions = ["walk", "jump", "turn", "crouch"]
         for word, POS in tags:
             if word not in basicActions:
@@ -60,4 +61,5 @@ class Reader:
                     self.result[self.basicWord].append(convert.word_to_num(word))
                 self.basic == 0
         print(dict(self.result))
+
         return self.result

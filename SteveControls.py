@@ -2,6 +2,7 @@ try:
     from malmo import MalmoPython
 except:
     import MalmoPython
+
 import time
 
 class SteveControls:
