@@ -133,6 +133,10 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
               </AgentSection>
             </Mission>'''
 
+# the extra port for Zhaodong, just leave it there please. :-)
+client_pool = MalmoPython.ClientPool()
+client_pool.add(MalmoPython.ClientInfo("127.0.0.1", 10001))
+
 # Create default Malmo objects:
 
 agent_host = MalmoPython.AgentHost()
@@ -153,6 +157,8 @@ my_mission_record = MalmoPython.MissionRecordSpec()
 max_retries = 3
 for retry in range(max_retries):
     try:
+        # extra port for Zhaodong, Plz do not change. :)
+        # agent_host.startMission(my_mission, client_pool, my_mission_record, 0, "")
         agent_host.startMission( my_mission, my_mission_record )
         break
     except RuntimeError as e:
@@ -169,7 +175,7 @@ while not world_state.has_mission_begun:
     time.sleep(0.1)
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
-        print("Error:",error.text)
+        print("Error:", error.text)
 
 print("Mission running ")
 
@@ -179,22 +185,28 @@ while world_state.is_mission_running:
 
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
-
+    print("commands: ", commands)
     for command, entity in commands.items():
-      if command == "crouch":
-        steve.crouch(crouching, sum(entity))
-        crouching = not crouching
-      elif command == "jump":
-        steve.jump(sum(entity))
-      elif command == "walk":
-        steve.walk(sum(entity))
-      elif command == "turn":
-        steve.turn(sum(entity))
+        nums = 1
+        if sum(entity) != 1:
+            nums = sum(entity) - 1
+        if command == "crouch":
+            steve.crouch(crouching, nums)
+            crouching = not crouching
+        elif command == "jump":
+            steve.jump(nums)
+        elif command == "walk":
+            steve.walk(nums)
+        elif command == "turn":
+            steve.turn(nums)
+        elif command == "attack":
+            steve.attack(nums)
 
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
-        print("Error:",error.text)
+        print("Error:", error.text)
 
 print()
 print("Mission ended")
 # Mission has ended.
+

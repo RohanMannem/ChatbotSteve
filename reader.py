@@ -27,7 +27,7 @@ class Reader:
         tokens = nltk.word_tokenize(self.tags)
         tags = nltk.pos_tag(tokens)
 
-        basicActions = ["walk", "jump", "turn", "crouch"]
+        basicActions = ["walk", "jump", "turn", "crouch", "attack"]
         for word, POS in tags:
             if word not in basicActions:
                 s1 = set(word.split("-"))
@@ -55,11 +55,9 @@ class Reader:
             elif word in basicActions:
                 self.basic = 1
                 self.basicWord = word
-                self.result[word] = []
+                self.result[word] = [1]
             if self.basic == 1:
                 if POS == "CD":
                     self.result[self.basicWord].append(convert.word_to_num(word))
                 self.basic == 0
-        print(dict(self.result))
-
-        return self.result
+        return dict(self.result)
