@@ -202,6 +202,7 @@ while world_state.is_mission_running:
         elif command == "attack":
             steve.attack(nums)
 
+
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
         print("Error:", error.text)
