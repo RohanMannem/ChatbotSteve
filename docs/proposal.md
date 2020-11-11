@@ -11,14 +11,14 @@ title: Proposal
  
 Using NLTK, Natural Language Toolkit, we were able to easily split the user’s commands into the list of tuples, as previously mentioned. A few examples of how we are parsing the user command are shown below:
  
-Sentence: I want you to walk
-NLTK: [('I', 'PRP'), ('want', 'VBP'), ('you', 'PRP'), ('to', 'TO'), ('walk', 'VB')]
+**Sentence:** I want you to walk<br>
+**NLTK:** [('I', 'PRP'), ('want', 'VBP'), ('you', 'PRP'), ('to', 'TO'), ('walk', 'VB')]
  
-Sentence: I want you to kill 10 skeletons and find one wolf
-NLTK: [('I', 'PRP'), ('want', 'VBP'), ('you', 'PRP'), ('to', 'TO'), ('kill', 'VB'), ('10', 'CD'), ('skeletons', 'NNS'), ('and', 'CC'), ('find', 'VB'), ('one', 'CD'), ('wolf', 'NN')]
+**Sentence:** I want you to kill 10 skeletons and find one wolf<br>
+**NLTK:** [('I', 'PRP'), ('want', 'VBP'), ('you', 'PRP'), ('to', 'TO'), ('kill', 'VB'), ('10', 'CD'), ('skeletons', 'NNS'), ('and', 'CC'), ('find', 'VB'), ('one', 'CD'), ('wolf', 'NN')]
  
-Sentence: I want you to kill a pig and find a cow
-NLTK: [('I', 'PRP'), ('want', 'VBP'), ('you', 'PRP'), ('to', 'TO'), ('kill', 'VB'), ('a', 'DT'), ('pig', 'NN'), ('and', 'CC'), ('find', 'VB'), ('a', 'DT'), ('cow', 'NN')]
+**Sentence:** I want you to kill a pig and find a cow<br>
+**NLTK:** [('I', 'PRP'), ('want', 'VBP'), ('you', 'PRP'), ('to', 'TO'), ('kill', 'VB'), ('a', 'DT'), ('pig', 'NN'), ('and', 'CC'), ('find', 'VB'), ('a', 'DT'), ('cow', 'NN')]
  
 Using NLTK to tokenize our output into tuples of (word, part of speech), we will create commands based on the part of speech and pass parameters based on the word. Our code also takes numbers into consideration and we will run the command as many times as the user commands.
 </p>
