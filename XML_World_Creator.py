@@ -133,6 +133,10 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
               </AgentSection>
             </Mission>'''
 
+# the extra port for Zhaodong, just leave it there please. :-)
+client_pool = MalmoPython.ClientPool()
+client_pool.add(MalmoPython.ClientInfo("127.0.0.1", 10001))
+
 # Create default Malmo objects:
 
 agent_host = MalmoPython.AgentHost()
@@ -153,6 +157,8 @@ my_mission_record = MalmoPython.MissionRecordSpec()
 max_retries = 3
 for retry in range(max_retries):
     try:
+        # extra port for Zhaodong, Plz do not change. :)
+        # agent_host.startMission(my_mission, client_pool, my_mission_record, 0, "")
         agent_host.startMission( my_mission, my_mission_record )
         break
     except RuntimeError as e:
@@ -190,6 +196,8 @@ while world_state.is_mission_running:
         steve.walk(sum(entity))
       elif command == "turn":
         steve.turn(sum(entity))
+      elif command == "attack":
+        steve.attack(sum(entity))
 
     world_state = agent_host.getWorldState()
     for error in world_state.errors:

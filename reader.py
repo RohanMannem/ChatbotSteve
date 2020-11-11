@@ -27,7 +27,7 @@ class Reader:
         tokens = nltk.word_tokenize(self.tags)
         tags = nltk.pos_tag(tokens)
 
-        basicActions = ["walk", "jump", "turn", "crouch"]
+        basicActions = ["walk", "jump", "turn", "crouch", "attack"]
         for word, POS in tags:
             if word not in basicActions:
                 s1 = set(word.split("-"))
