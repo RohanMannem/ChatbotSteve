@@ -175,7 +175,7 @@ while not world_state.has_mission_begun:
     time.sleep(0.1)
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
-        print("Error:",error.text)
+        print("Error:", error.text)
 
 print("Mission running ")
 
@@ -185,24 +185,29 @@ while world_state.is_mission_running:
 
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
-
+    print("commands: ", commands)
     for command, entity in commands.items():
-      if command == "crouch":
-        steve.crouch(crouching, sum(entity))
-        crouching = not crouching
-      elif command == "jump":
-        steve.jump(sum(entity))
-      elif command == "walk":
-        steve.walk(sum(entity))
-      elif command == "turn":
-        steve.turn(sum(entity))
-      elif command == "attack":
-        steve.attack(sum(entity))
+        nums = 1
+        if sum(entity) != 1:
+            nums = sum(entity) - 1
+        if command == "crouch":
+            steve.crouch(crouching, nums)
+            crouching = not crouching
+        elif command == "jump":
+            steve.jump(nums)
+        elif command == "walk":
+            steve.walk(nums)
+        elif command == "turn":
+            steve.turn(nums)
+        elif command == "attack":
+            steve.attack(nums)
+
 
     world_state = agent_host.getWorldState()
     for error in world_state.errors:
-        print("Error:",error.text)
+        print("Error:", error.text)
 
 print()
 print("Mission ended")
 # Mission has ended.
+

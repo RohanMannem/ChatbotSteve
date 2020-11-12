@@ -42,7 +42,7 @@ class SteveControls:
     def turn(self, times = 1):
         self.agent.sendCommand("turn 1")
         for i in range(times):
-            time.sleep(0.1)
+            time.sleep(0.4875)
         self.agent.sendCommand("turn 0")
 
     def attack(self, times = 1):
