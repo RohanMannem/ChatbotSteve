@@ -7,6 +7,10 @@ title: Status
 
 [![ChatbotSteve](https://cdn.vox-cdn.com/thumbor/ipajjnzaEyDK1badzdbQ32MSxVI=/0x0:767x431/1200x800/filters:focal(323x155:445x277)/cdn.vox-cdn.com/uploads/chorus_image/image/63226878/0fe20042_0bb8_4781_82f4_7130f928b021.0.jpg)](https://www.youtube.com/watch?v=-h_ab_9RHSw&feature=youtu.be "ChatbotSteve")
 
+Status Video Test
+== 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-h_ab_9RHSw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 <h2>Project Summary</h2>
 <p>Our main idea for the project is to implement user text/speech recognition to control	the character. We plan to move the agent depending on the user’s command. Our current list of actions ranges from basic commands (walk, jump, crouch, turn) to more complicated ones (find animals/objects, feed/kill them, etc.). In a real time example, typing ‘find the pig’ will command the agent, Steve, to find the closest pig in the spawned world. We can further command Steve to ‘feed the pig’ or ‘kill the pig’. These commands will be implemented to work for all animals/creatures. Furthermore, we implemented the agent to understand compound sentences, allowing Steve to perform more than one action at a time.</p>
 
