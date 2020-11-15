@@ -128,6 +128,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                 </AgentStart>
                 <AgentHandlers>
                   <ObservationFromFullStats/>
+                  <AbsoluteMovementCommands/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
                 </AgentHandlers>
               </AgentSection>
@@ -185,13 +186,16 @@ while world_state.is_mission_running:
 
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
-    print("commands: ", commands)
+    print("commands:", commands)
+
     for command, entity in commands.items():
-        nums = 1
-        if sum(entity) != 1:
-            nums = sum(entity) - 1
+        if entity == []:
+          nums = 1
+        else:
+          nums = entity
+
         if command == "crouch":
-            steve.crouch(crouching, nums)
+            steve.crouch(crouching)
             crouching = not crouching
         elif command == "jump":
             steve.jump(nums)
@@ -201,6 +205,13 @@ while world_state.is_mission_running:
             steve.turn(nums)
         elif command == "attack":
             steve.attack(nums)
+        elif command == "find":
+          if entity[0][0] == "steve":
+            steve.getSteve()
+          elif entity[0][0] == "water":
+            steve.findWater()
+          elif entity[0][0] == "animal":
+            steve.findAnimal()
 
 
     world_state = agent_host.getWorldState()
