@@ -128,6 +128,9 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                 </AgentStart>
                 <AgentHandlers>
                   <ObservationFromFullStats/>
+                  <ObservationFromNearbyEntities>''' + \
+                    "<Range name='Find' xrange='{}'  yrange='{}'  zrange='{}' />".format(21, 2, 21) + \
+                  '''</ObservationFromNearbyEntities>
                   <AbsoluteMovementCommands/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
                 </AgentHandlers>
@@ -187,7 +190,7 @@ while world_state.is_mission_running:
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
     print("commands:", commands)
-
+    animalList = ["pig", "cow", "sheep", "chicken"]
     for command, entity in commands.items():
         if entity == []:
           nums = 1
@@ -210,8 +213,8 @@ while world_state.is_mission_running:
             steve.getSteve()
           elif entity[0][0] == "water":
             steve.findWater()
-          elif entity[0][0] == "animal":
-            steve.findAnimal()
+          elif entity[0][0] in animalList:
+            steve.findAnimal(entity[0][0])
 
 
     world_state = agent_host.getWorldState()

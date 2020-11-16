@@ -5,6 +5,7 @@ except:
 
 import time
 import json
+import math
 
 class SteveControls:
 
@@ -49,11 +50,12 @@ class SteveControls:
         lastWorldState = self.agent.peekWorldState()
         if lastWorldState.number_of_observations_since_last_state > 0:
             observation = json.loads(lastWorldState.observations[-1].text)
-            print(observation)
-        return observation
+            AnimalPosition = observation["Find"]
+            #print(observation)
+        return [observation, AnimalPosition]
 
     def findWater(self):
-        steve = self.getSteve()
+        steve = self.getSteve()[0]
         
         if steve["XPos"] < 0:
             waterX = -17
@@ -71,32 +73,36 @@ class SteveControls:
         if abs(diffX) < abs(diffZ):
             if diffX < 0:
                 self.agent.sendCommand("setYaw 90")
-                self.walk(int(abs(diffX)))
+                self.walk(math.ceil(abs(diffX)))
             else:
                 self.agent.sendCommand("setYaw -90")
-                self.walk(int(abs(diffX)))
+                self.walk(math.ceil(abs(diffX)))
         else:
             if diffZ < 0:
                 self.agent.sendCommand("setYaw 180")
-                self.walk(int(abs(diffZ)))
+                self.walk(math.ceil(abs(diffZ)))
             else:
                 self.agent.sendCommand("setYaw 0")
-                self.walk(int(abs(diffZ)))
+                self.walk(math.ceil(abs(diffZ)))
 
-    def findAnimal(self):
-        count = 0
-        self.agent.sendCommand('setPitch 30')
+    def findAnimal(self, animal):
         while True:
-            steve = self.getSteve()
-            
-            if "LineOfSight" in steve:
-                break
-            if "Entities" in steve:
-                break
+            entitiesInfor = self.getSteve()[1]
+            steve = entitiesInfor[0]
 
-            count += 1
+            diffX = 0
+            diffZ = 0
 
-            if count > 100:
+            for a in entitiesInfor:
+                if a['name'].lower() == animal:
+                    diffX = a['x'] - steve['x']
+                    diffZ = a['z'] - steve['z']
+
+            moveDis = math.floor(math.sqrt(abs(diffX)**2 + abs(diffZ)**2))
+            Yaw = -180 * math.atan2(diffX, diffZ) / math.pi
+
+            self.agent.sendCommand("setYaw {}".format(Yaw))
+            self.walk(moveDis)
+
+            if moveDis <= 1:
                 break
-
-        print(steve)
