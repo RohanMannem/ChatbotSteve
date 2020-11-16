@@ -20,7 +20,7 @@ else:
 
 # HYPERPARAMETERS
 flowerChance = 0.01
-SIZE = 21
+SIZE = 24
 waterGap = SIZE/5
 crouching = False
 
@@ -49,10 +49,10 @@ waterXML = ""
 for x in range (-SIZE, SIZE):
   for z in range (-SIZE, SIZE):
     if (-SIZE + waterGap < x < -SIZE or SIZE - waterGap < x < SIZE) and ((-SIZE + waterGap < z < -SIZE or SIZE - waterGap < z < SIZE)) and (x == z or x == -z):
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 226, z, (-1 * x), 226, z)
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 226, z, (-1 * x), 226, (-1 * z))
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 226, (-1 * z), x, 226, (-1 * z))
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 226, (-1 * z), x, 226, z)
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 220, z, (-1 * x), 226, z)
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 220, z, (-1 * x), 226, (-1 * z))
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 220, (-1 * z), x, 226, (-1 * z))
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 220, (-1 * z), x, 226, z)
 
 torchXML = ""
 for x in range (-SIZE + 1, SIZE):
@@ -106,7 +106,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     <DrawEntity x="5" y="227" z="8" type="Cow"/>
                     <DrawEntity x="-5" y="227" z="8" type="Chicken"/>
                     <DrawEntity x="10" y="227" z="8" type="Sheep"/>
-
+                    <DrawEntity x="-10" y="227" z="8" type="Horse" />
                   </DrawingDecorator>
                   <ServerQuitFromTimeUp timeLimitMs="1000000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
@@ -124,15 +124,17 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     <InventoryItem slot="3" type="wheat" quantity="64"/>
                     <InventoryItem slot="4" type="carrot" quantity="64"/>
                     <InventoryItem slot="5" type="melon_seeds" quantity="64"/>
+                    <InventoryItem slot="6" type="saddle" quantity="64"/>
                 </Inventory>
                 </AgentStart>
                 <AgentHandlers>
                   <ObservationFromFullStats/>
                   <ObservationFromNearbyEntities>''' + \
-                    "<Range name='Find' xrange='{}'  yrange='{}'  zrange='{}' />".format(21, 2, 21) + \
+                    "<Range name='Find' xrange='{}'  yrange='{}'  zrange='{}' />".format(SIZE, 2, SIZE) + \
                   '''</ObservationFromNearbyEntities>
                   <AbsoluteMovementCommands/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
+                  <InventoryCommands/>
                 </AgentHandlers>
               </AgentSection>
             </Mission>'''
@@ -190,9 +192,9 @@ while world_state.is_mission_running:
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
     print("commands:", commands)
-    animalList = ["pig", "cow", "sheep", "chicken"]
+    animalList = ["pig", "cow", "sheep", "chicken", "horse"]
     for command, entity in commands.items():
-        if entity == []:
+        if entity == [1]:
           nums = 1
         else:
           nums = entity
@@ -215,6 +217,14 @@ while world_state.is_mission_running:
             steve.findWater()
           elif entity[0][0] in animalList:
             steve.findAnimal(entity[0][0])
+        elif command == "catch":
+          if entity[0][0] == "fish":
+            steve.fish()
+        elif command == "ride":
+          if entity[0][0] == "horse":
+            steve.ride()
+          else:
+            print("You can't ride that animal!")
 
 
     world_state = agent_host.getWorldState()

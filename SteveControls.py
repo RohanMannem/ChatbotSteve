@@ -11,6 +11,7 @@ class SteveControls:
 
     def __init__(self, agent_host):
         self.agent = agent_host
+        self.attempts = 0
 
     def crouch(self, crouching):
         if crouching:
@@ -106,3 +107,60 @@ class SteveControls:
 
             if moveDis <= 1:
                 break
+
+    def fish(self, times = 1):
+        timer = time.time()
+        for i in range(times):
+            self.findWater()
+
+            self.agent.sendCommand('hotbar.3 1')
+            self.agent.sendCommand('hotbar.3 0')
+
+            self.agent.sendCommand('setPitch 15')
+
+            self.agent.sendCommand('use 1')
+            self.agent.sendCommand('use 0')
+
+            while True:
+                now = time.time()
+
+                if timer - now > 30:
+                    break
+
+                currSteve = self.getSteve()
+                animalPosition = currSteve[1]
+
+                for animalDict in animalPosition:
+                    print(animalDict) # Look for the one with name = unknown
+
+                time.sleep(1)
+
+            self.agent.sendCommand('use 1')
+            self.agent.sendCommand('use 0')
+
+    def ride(self):        
+        while True:
+            self.findAnimal("horse")
+            steve = self.getSteve()
+            steve = steve[1]
+            
+            for entity in steve:
+                if entity["name"] == "SteveWhisperer":
+                    steve = entity
+
+            if steve["y"] != 228:
+                self.agent.sendCommand('hotbar.8 1')
+                self.agent.sendCommand('hotbar.8 0')
+                self.agent.sendCommand('setPitch 15')
+                self.agent.sendCommand('use 1')
+                self.agent.sendCommand('use 0')
+                time.sleep(2)
+
+            if self.attempts >= 10:
+                break
+
+            if steve["y"] == 228:
+                break
+            else:
+                self.attempts += 1
+                self.ride()
