@@ -125,6 +125,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     <InventoryItem slot="4" type="carrot" quantity="64"/>
                     <InventoryItem slot="5" type="melon_seeds" quantity="64"/>
                     <InventoryItem slot="6" type="saddle" quantity="64"/>
+                    <InventoryItem slot="7" type="apple" quantity="64"/>
                 </Inventory>
                 </AgentStart>
                 <AgentHandlers>
@@ -225,6 +226,9 @@ while world_state.is_mission_running:
             steve.ride()
           else:
             print("You can't ride that animal!")
+        elif command == "feed":
+          if entity[0][0] in animalList:
+            steve.feed(entity[0][0])
 
 
     world_state = agent_host.getWorldState()

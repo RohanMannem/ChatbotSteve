@@ -149,18 +149,48 @@ class SteveControls:
                     steve = entity
 
             if steve["y"] != 228:
-                self.agent.sendCommand('hotbar.8 1')
-                self.agent.sendCommand('hotbar.8 0')
+                self.agent.sendCommand('hotbar.9 1')
+                self.agent.sendCommand('hotbar.9 0')
                 self.agent.sendCommand('setPitch 15')
                 self.agent.sendCommand('use 1')
                 self.agent.sendCommand('use 0')
                 time.sleep(2)
 
             if self.attempts >= 10:
+                self.attempts = 0
                 break
 
             if steve["y"] == 228:
+                self.attempts = 0
                 break
             else:
                 self.attempts += 1
                 self.ride()
+
+    def feed(self, animal):
+        self.findAnimal(animal)
+
+        if animal == "pig":
+            self.agent.sendCommand("hotbar.5 1")
+            self.agent.sendCommand("hotbar.5 0")
+            self.agent.sendCommand('setPitch 30')
+        elif animal == "cow" or animal == "sheep":
+            self.agent.sendCommand("hotbar.4 1")
+            self.agent.sendCommand("hotbar.4 0")
+            self.agent.sendCommand('setPitch 15')
+        elif animal =="horse":
+            self.agent.sendCommand("hotbar.8 1")
+            self.agent.sendCommand("hotbar.8 0")
+            self.agent.sendCommand('use 1')
+            self.agent.sendCommand('use 0')
+            return
+        elif animal == "chicken":
+            self.agent.sendCommand("hotbar.6 1")
+            self.agent.sendCommand("hotbar.6 0")
+            self.agent.sendCommand('setPitch 45')
+        
+        time.sleep(1)
+        self.agent.sendCommand('use 1')
+        self.agent.sendCommand('use 0')
+        time.sleep(1)
+        self.agent.sendCommand('setPitch 0')
