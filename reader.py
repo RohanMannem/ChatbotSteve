@@ -58,6 +58,6 @@ class Reader:
                 self.result[word] = [1]
             if self.basic == 1:
                 if POS == "CD":
-                    self.result[self.basicWord].append(convert.word_to_num(word))
+                    self.result[self.basicWord] = (convert.word_to_num(word))
                 self.basic == 0
         return dict(self.result)

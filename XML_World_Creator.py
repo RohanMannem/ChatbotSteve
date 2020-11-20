@@ -20,7 +20,7 @@ else:
 
 # HYPERPARAMETERS
 flowerChance = 0.01
-SIZE = 21
+SIZE = 24
 waterGap = SIZE/5
 crouching = False
 
@@ -49,10 +49,10 @@ waterXML = ""
 for x in range (-SIZE, SIZE):
   for z in range (-SIZE, SIZE):
     if (-SIZE + waterGap < x < -SIZE or SIZE - waterGap < x < SIZE) and ((-SIZE + waterGap < z < -SIZE or SIZE - waterGap < z < SIZE)) and (x == z or x == -z):
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 226, z, (-1 * x), 226, z)
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 226, z, (-1 * x), 226, (-1 * z))
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 226, (-1 * z), x, 226, (-1 * z))
-      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 226, (-1 * z), x, 226, z)
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 220, z, (-1 * x), 226, z)
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 220, z, (-1 * x), 226, (-1 * z))
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format((-1 * x), 220, (-1 * z), x, 226, (-1 * z))
+      waterXML += "<DrawCuboid x1='{}' y1='{}' z1='{}' x2='{}' y2='{}' z2='{}' type='water'/>".format(x, 220, (-1 * z), x, 226, z)
 
 torchXML = ""
 for x in range (-SIZE + 1, SIZE):
@@ -63,6 +63,35 @@ for z in range (-SIZE + 1, SIZE):
   if z % 2 == 0:
     torchXML += "<DrawBlock x='{}' y='{}' z='{}' type='torch'/>".format(SIZE, 233, z)
     torchXML += "<DrawBlock x='{}' y='{}' z='{}' type='torch'/>".format(-SIZE, 233, z)
+
+fenceXML = ""
+inner = SIZE-3
+for x in range (-inner, inner):
+  for z in range (-inner, inner):
+    if x == 20 or x == -20 or z == 20 or z == -20:
+      fenceXML += "<DrawBlock x='{}' y='{}' z='{}' type='fence'/>".format(x, 227, z)
+
+animalXML = "<DrawEntity x='0' y='227' z='8' type='Pig'/>" + \
+            "<DrawEntity x='5' y='227' z='8' type='Cow'/>" + \
+            "<DrawEntity x='-5' y='227' z='8' type='Chicken'/>" + \
+            "<DrawEntity x='10' y='227' z='8' type='Sheep'/>" + \
+            "<DrawEntity x='-10' y='227' z='8' type='Horse' />"
+
+inner = SIZE-5
+for x in range (-inner, inner):
+  for z in range (-inner, inner):
+    r = random.uniform(0, 1.5)
+    if r < 0.01:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Pig'/>".format(x, 227, z)
+    elif r < 0.02:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Cow'/>".format(x, 227, z)
+    elif r < 0.03:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Chicken'/>".format(x, 227, z)
+    elif r < 0.04:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Sheep'/>".format(x, 227, z)
+    elif r < 0.05:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Horse'/>".format(x, 227, z)
+
 
 missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
             <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -102,11 +131,9 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     flowerXML + \
                     waterXML + \
                     torchXML + \
-                    '''<DrawEntity x="0" y="227" z="8" type="Pig"/>
-                    <DrawEntity x="5" y="227" z="8" type="Cow"/>
-                    <DrawEntity x="-5" y="227" z="8" type="Chicken"/>
-                    <DrawEntity x="10" y="227" z="8" type="Sheep"/>
-
+                    fenceXML + \
+                    animalXML +\
+                    '''
                   </DrawingDecorator>
                   <ServerQuitFromTimeUp timeLimitMs="1000000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
@@ -124,11 +151,18 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     <InventoryItem slot="3" type="wheat" quantity="64"/>
                     <InventoryItem slot="4" type="carrot" quantity="64"/>
                     <InventoryItem slot="5" type="melon_seeds" quantity="64"/>
+                    <InventoryItem slot="6" type="saddle" quantity="64"/>
+                    <InventoryItem slot="7" type="apple" quantity="64"/>
                 </Inventory>
                 </AgentStart>
                 <AgentHandlers>
                   <ObservationFromFullStats/>
+                  <ObservationFromNearbyEntities>''' + \
+                    "<Range name='Find' xrange='{}'  yrange='{}'  zrange='{}' />".format(SIZE, 2, SIZE) + \
+                  '''</ObservationFromNearbyEntities>
+                  <AbsoluteMovementCommands/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
+                  <InventoryCommands/>
                 </AgentHandlers>
               </AgentSection>
             </Mission>'''
@@ -185,13 +219,16 @@ while world_state.is_mission_running:
 
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
-    print("commands: ", commands)
+    print("commands:", commands)
+    animalList = ["pig", "cow", "sheep", "chicken", "horse"]
     for command, entity in commands.items():
-        nums = 1
-        if sum(entity) != 1:
-            nums = sum(entity) - 1
+        if entity == [1]:
+          nums = 1
+        else:
+          nums = entity
+
         if command == "crouch":
-            steve.crouch(crouching, nums)
+            steve.crouch(crouching)
             crouching = not crouching
         elif command == "jump":
             steve.jump(nums)
@@ -201,6 +238,37 @@ while world_state.is_mission_running:
             steve.turn(nums)
         elif command == "attack":
             steve.attack(nums)
+        elif command == "find":
+          for target, num in entity:
+            if target == "steve":
+              steve.getSteve()
+            if target == "water":
+              steve.findWater()
+            if target in animalList:
+              steve.findAnimal(target, num)
+
+        elif command == "catch":
+          for target, num in entity:
+            if target == "fish":
+              steve.fish(num)
+
+        elif command == "ride":
+          if entity[0][0] == "horse":
+            steve.ride()
+          else:
+            print("You can't ride that animal!")
+        elif command == "feed":
+          for target, num in entity:
+            if target in animalList:
+              steve.feed(target, num)
+
+        elif command == "kill":
+          for target, num in entity:
+            if target in animalList:
+              for _ in range(num):
+                time.sleep(0.3)
+                steve.kill(target)
+
 
 
     world_state = agent_host.getWorldState()
