@@ -47,6 +47,31 @@ class SteveControls:
             time.sleep(0.55)
         self.agent.sendCommand("attack 0")
 
+    def kill(self, animal):
+        total = 0
+        for a in self.getSteve()[1]:
+            if a['name'].lower() == animal:
+                total += 1
+        if total <= 0:
+            return
+        while True:
+            self.findAnimal(animal)
+            self.agent.sendCommand('setPitch 50')
+            time.sleep(0.1)
+            self.agent.sendCommand("attack 1")
+            time.sleep(0.1)
+            self.agent.sendCommand('setPitch 0')
+            self.agent.sendCommand("attack 0")
+            time.sleep(0.1)
+            tempTotal = 0
+            for a in self.getSteve()[1]:
+                if a['name'].lower() == animal:
+                    tempTotal+= 1
+            if tempTotal != total:
+                break
+        self.agent.sendCommand('setPitch 0')
+
+
     def getSteve(self):
         lastWorldState = self.agent.peekWorldState()
         if lastWorldState.number_of_observations_since_last_state > 0:
@@ -86,7 +111,7 @@ class SteveControls:
                 self.agent.sendCommand("setYaw 0")
                 self.walk(math.ceil(abs(diffZ)))
 
-    def findAnimal(self, animal):
+    def findAnimal(self, animal, num=1):
         while True:
             entitiesInfor = self.getSteve()[1]
             steve = entitiesInfor[0]
@@ -167,30 +192,35 @@ class SteveControls:
                 self.attempts += 1
                 self.ride()
 
-    def feed(self, animal):
-        self.findAnimal(animal)
-
-        if animal == "pig":
-            self.agent.sendCommand("hotbar.5 1")
-            self.agent.sendCommand("hotbar.5 0")
-            self.agent.sendCommand('setPitch 30')
-        elif animal == "cow" or animal == "sheep":
-            self.agent.sendCommand("hotbar.4 1")
-            self.agent.sendCommand("hotbar.4 0")
-            self.agent.sendCommand('setPitch 15')
-        elif animal =="horse":
-            self.agent.sendCommand("hotbar.8 1")
-            self.agent.sendCommand("hotbar.8 0")
+    def feed(self, animal, num):
+        for i in range(num):
+            self.findAnimal(animal)
+            if animal == "pig":
+                self.agent.sendCommand("hotbar.5 1")
+                self.agent.sendCommand("hotbar.5 0")
+                self.agent.sendCommand('setPitch 30')
+            elif animal == "cow" or animal == "sheep":
+                self.agent.sendCommand("hotbar.4 1")
+                self.agent.sendCommand("hotbar.4 0")
+                self.agent.sendCommand('setPitch 15')
+            elif animal =="horse":
+                self.agent.sendCommand("hotbar.8 1")
+                self.agent.sendCommand("hotbar.8 0")
+                self.agent.sendCommand('use 1')
+                self.agent.sendCommand('use 0')
+                return
+            elif animal == "chicken":
+                self.agent.sendCommand("hotbar.6 1")
+                self.agent.sendCommand("hotbar.6 0")
+                self.agent.sendCommand('setPitch 45')
+            time.sleep(1)
             self.agent.sendCommand('use 1')
             self.agent.sendCommand('use 0')
-            return
-        elif animal == "chicken":
-            self.agent.sendCommand("hotbar.6 1")
-            self.agent.sendCommand("hotbar.6 0")
-            self.agent.sendCommand('setPitch 45')
-        
-        time.sleep(1)
-        self.agent.sendCommand('use 1')
-        self.agent.sendCommand('use 0')
-        time.sleep(1)
-        self.agent.sendCommand('setPitch 0')
+            time.sleep(1)
+            self.agent.sendCommand('setPitch 0')
+            self.agent.sendCommand("hotbar.0 1")
+            self.agent.sendCommand("hotbar.0 0")
+        self.agent.sendCommand("hotbar.0 1")
+        self.agent.sendCommand("hotbar.0 0")
+
+

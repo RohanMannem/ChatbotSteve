@@ -64,6 +64,35 @@ for z in range (-SIZE + 1, SIZE):
     torchXML += "<DrawBlock x='{}' y='{}' z='{}' type='torch'/>".format(SIZE, 233, z)
     torchXML += "<DrawBlock x='{}' y='{}' z='{}' type='torch'/>".format(-SIZE, 233, z)
 
+fenceXML = ""
+inner = SIZE-3
+for x in range (-inner, inner):
+  for z in range (-inner, inner):
+    if x == 20 or x == -20 or z == 20 or z == -20:
+      fenceXML += "<DrawBlock x='{}' y='{}' z='{}' type='fence'/>".format(x, 227, z)
+
+animalXML = "<DrawEntity x='0' y='227' z='8' type='Pig'/>" + \
+            "<DrawEntity x='5' y='227' z='8' type='Cow'/>" + \
+            "<DrawEntity x='-5' y='227' z='8' type='Chicken'/>" + \
+            "<DrawEntity x='10' y='227' z='8' type='Sheep'/>" + \
+            "<DrawEntity x='-10' y='227' z='8' type='Horse' />"
+
+inner = SIZE-5
+for x in range (-inner, inner):
+  for z in range (-inner, inner):
+    r = random.uniform(0, 1.5)
+    if r < 0.01:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Pig'/>".format(x, 227, z)
+    elif r < 0.02:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Cow'/>".format(x, 227, z)
+    elif r < 0.03:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Chicken'/>".format(x, 227, z)
+    elif r < 0.04:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Sheep'/>".format(x, 227, z)
+    elif r < 0.05:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Horse'/>".format(x, 227, z)
+
+
 missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
             <Mission xmlns="http://ProjectMalmo.microsoft.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             
@@ -102,11 +131,10 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     flowerXML + \
                     waterXML + \
                     torchXML + \
-                    '''<DrawEntity x="0" y="227" z="8" type="Pig"/>
-                    <DrawEntity x="5" y="227" z="8" type="Cow"/>
-                    <DrawEntity x="-5" y="227" z="8" type="Chicken"/>
-                    <DrawEntity x="10" y="227" z="8" type="Sheep"/>
-                    <DrawEntity x="-10" y="227" z="8" type="Horse" />
+                    fenceXML + \
+                    animalXML +\
+                    '''
+
                   </DrawingDecorator>
                   <ServerQuitFromTimeUp timeLimitMs="1000000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
@@ -212,23 +240,38 @@ while world_state.is_mission_running:
         elif command == "attack":
             steve.attack(nums)
         elif command == "find":
-          if entity[0][0] == "steve":
-            steve.getSteve()
-          elif entity[0][0] == "water":
-            steve.findWater()
-          elif entity[0][0] in animalList:
-            steve.findAnimal(entity[0][0])
+          for target, num in entity:
+            if target == "steve":
+              steve.getSteve()
+            if target == "water":
+              steve.findWater()
+            if target in animalList:
+              steve.findAnimal(target, num)
+
         elif command == "catch":
-          if entity[0][0] == "fish":
-            steve.fish()
+          for target, num in entity:
+            if target == "fish":
+              steve.fish(num)
+
+
         elif command == "ride":
           if entity[0][0] == "horse":
             steve.ride()
           else:
             print("You can't ride that animal!")
         elif command == "feed":
-          if entity[0][0] in animalList:
-            steve.feed(entity[0][0])
+          for target, num in entity:
+            if target in animalList:
+              steve.feed(target, num)
+
+        elif command == "kill":
+          for target, num in entity:
+            if target in animalList:
+              for _ in range(num):
+                time.sleep(0.3)
+                steve.kill(target)
+
+
 
 
     world_state = agent_host.getWorldState()
