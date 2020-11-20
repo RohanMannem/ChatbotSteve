@@ -47,8 +47,6 @@ class SteveControls:
             time.sleep(0.55)
         self.agent.sendCommand("attack 0")
 
-
-
     def kill(self, animal):
         total = 0
         for a in self.getSteve()[1]:
@@ -72,7 +70,6 @@ class SteveControls:
             if tempTotal != total:
                 break
         self.agent.sendCommand('setPitch 0')
-
 
 
     def getSteve(self):
@@ -225,4 +222,5 @@ class SteveControls:
             self.agent.sendCommand("hotbar.0 0")
         self.agent.sendCommand("hotbar.0 1")
         self.agent.sendCommand("hotbar.0 0")
+
 

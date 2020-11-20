@@ -134,6 +134,7 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                     fenceXML + \
                     animalXML +\
                     '''
+
                   </DrawingDecorator>
                   <ServerQuitFromTimeUp timeLimitMs="1000000"/>
                   <ServerQuitWhenAnyAgentFinishes/>
@@ -252,6 +253,7 @@ while world_state.is_mission_running:
             if target == "fish":
               steve.fish(num)
 
+
         elif command == "ride":
           if entity[0][0] == "horse":
             steve.ride()
@@ -268,6 +270,7 @@ while world_state.is_mission_running:
               for _ in range(num):
                 time.sleep(0.3)
                 steve.kill(target)
+
 
 
 
