@@ -192,6 +192,7 @@ while world_state.is_mission_running:
 
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
+    
     print("commands:", commands)
     animalList = ["pig", "cow", "sheep", "chicken", "horse"]
     for command, entity in commands.items():
@@ -238,4 +239,3 @@ while world_state.is_mission_running:
 print()
 print("Mission ended")
 # Mission has ended.
-
