@@ -119,10 +119,22 @@ class SteveControls:
             diffX = 0
             diffZ = 0
 
+            animals = []
             for a in entitiesInfor:
                 if a['name'].lower() == animal:
-                    diffX = a['x'] - steve['x']
-                    diffZ = a['z'] - steve['z']
+                    animals.append(a)
+                    # diffX = a['x'] - steve['x']
+                    # diffZ = a['z'] - steve['z']
+
+            allDistances = []
+            for animal in animals:
+                distanceToAnimal = math.sqrt(abs((abs(steve['x'] - animal['x']) ** 2) + (abs(steve['z'] - animal['z']) ** 2)))
+                allDistances.append(distanceToAnimal)
+                if distanceToAnimal == min(allDistances):
+                    closestAnimal = animal
+
+            diffX = closestAnimal['x'] - steve['x']
+            diffZ = closestAnimal['z'] - steve['z']
 
             moveDis = math.floor(math.sqrt(abs(diffX)**2 + abs(diffZ)**2))
             Yaw = -180 * math.atan2(diffX, diffZ) / math.pi
@@ -173,6 +185,10 @@ class SteveControls:
                 if entity["name"] == "SteveWhisperer":
                     steve = entity
 
+            if self.attempts >= 10:
+                self.attempts = 0
+                break
+
             if steve["y"] != 228:
                 self.agent.sendCommand('hotbar.9 1')
                 self.agent.sendCommand('hotbar.9 0')
@@ -181,9 +197,6 @@ class SteveControls:
                 self.agent.sendCommand('use 0')
                 time.sleep(2)
 
-            if self.attempts >= 10:
-                self.attempts = 0
-                break
 
             if steve["y"] == 228:
                 self.attempts = 0

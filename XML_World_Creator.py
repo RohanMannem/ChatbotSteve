@@ -80,16 +80,16 @@ animalXML = "<DrawEntity x='0' y='227' z='8' type='Pig'/>" + \
 inner = SIZE-5
 for x in range (-inner, inner):
   for z in range (-inner, inner):
-    r = random.uniform(0, 1.5)
-    if r < 0.01:
+    r = random.uniform(0, 1)
+    if 0 <= r <= 0.01:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Pig'/>".format(x, 227, z)
-    elif r < 0.02:
+    elif 0.01 < r <= 0.015:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Cow'/>".format(x, 227, z)
-    elif r < 0.03:
-      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Chicken'/>".format(x, 227, z)
-    elif r < 0.04:
+    elif 0.015 < r <= 0.02:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Sheep'/>".format(x, 227, z)
-    elif r < 0.05:
+    elif 0.02 < r <= 0.03:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Chicken'/>".format(x, 227, z)
+    elif 0.03 < r <= 0.035:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Horse'/>".format(x, 227, z)
 
 

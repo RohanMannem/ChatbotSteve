@@ -238,7 +238,6 @@ rocket
 rose
 saddle
 salmon
-sand
 sandstone
 sapling
 scaffolding
@@ -371,3 +370,4 @@ Zombie
 18
 19
 20
+And
