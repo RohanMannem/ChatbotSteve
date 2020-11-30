@@ -1,3 +1,4 @@
+#GeneralMinecraftWords
 acacia
 activator
 allium
@@ -310,22 +311,31 @@ wood
 wool
 yellow
 zombie
-find
-kill
-search
-locate
-walk
-eat
-turn
+
+#MinecraftActions
+Find
+Kill
+Search
+Walk
+Eat
+Turn
 Jump
 Crouch
 Ride
 Fish
 Catch
 Feed
+
+#Articles/Conjunctions
 The
 A
 An
+And
+Or
+But
+So
+
+#Numbers
 One
 Two
 Three
@@ -336,20 +346,6 @@ Seven
 Eight
 Nine
 Ten
-Pig
-Cow
-Chicken
-Fish
-Sheep
-Kill
-Find
-Ride
-Fish
-Catch
-Walk
-Jump
-Dragon
-Zombie
 1
 2
 3
@@ -370,4 +366,17 @@ Zombie
 18
 19
 20
-And
+
+#SampleCommands
+Find a pig
+Find a cow
+Kill a sheep
+Kill a chicken
+Ride a horse
+Tame a wolf
+Eat an apple
+Feed a sheep
+Kill a cow and feed a pig
+Kill a cow, a pig, and a chicken
+Feed a cow, walk five
+Jump three and crouch
