@@ -6,11 +6,11 @@ title:  Team
 # {{ page.title }}
 
 
-## USER 1
+## Rohan Mannem
 ***UCI Net ID***: rmannem
 
-## USER 2
+## Qilong Zhangli
 ***UCI Net ID***: qzhangli
 
-## USER 3
+## Zhaodong Wei
 ***UCI Net ID***: zhaodow1
