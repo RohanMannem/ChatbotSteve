@@ -2,6 +2,7 @@ import nltk
 from collections import defaultdict
 import word2int as convert
 import inflect
+import spellCheck
 
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
@@ -13,7 +14,19 @@ class Reader:
     def __init__(self):
         command = input("enter your command: ")
         command = command.lower()
-        command = "I want you to " + command
+
+        spellChecker = spellCheck.spellCheck()
+        spellCheckedCommand = ""
+        commandSpellCheck = command.split(" ")
+        for i in range(0, len(commandSpellCheck) - 1):
+            if type(commandSpellCheck[i]) != int:
+                spellCheckedCommand += spellChecker.correction(commandSpellCheck[i]) + " "
+        if (commandSpellCheck[len(commandSpellCheck) - 1]):
+            spellCheckedCommand += spellChecker.correction(commandSpellCheck[len(commandSpellCheck) - 1])
+        print(command)
+        print(spellCheckedCommand)
+
+        command = "I want you to " + spellCheckedCommand
         self.tags = command
         self.currentVerb = ""
         self.currentNum = 1

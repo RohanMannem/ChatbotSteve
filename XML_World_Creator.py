@@ -80,16 +80,16 @@ animalXML = "<DrawEntity x='0' y='227' z='8' type='Pig'/>" + \
 inner = SIZE-5
 for x in range (-inner, inner):
   for z in range (-inner, inner):
-    r = random.uniform(0, 1.5)
-    if r < 0.01:
+    r = random.uniform(0, 1)
+    if 0 <= r <= 0.01:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Pig'/>".format(x, 227, z)
-    elif r < 0.02:
+    elif 0.01 < r <= 0.015:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Cow'/>".format(x, 227, z)
-    elif r < 0.03:
-      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Chicken'/>".format(x, 227, z)
-    elif r < 0.04:
+    elif 0.015 < r <= 0.02:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Sheep'/>".format(x, 227, z)
-    elif r < 0.05:
+    elif 0.02 < r <= 0.03:
+      animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Chicken'/>".format(x, 227, z)
+    elif 0.03 < r <= 0.035:
       animalXML += "<DrawEntity x='{}' y='{}' z='{}' type='Horse'/>".format(x, 227, z)
 
 
@@ -158,9 +158,9 @@ missionXML='''<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
                 </AgentStart>
                 <AgentHandlers>
                   <ObservationFromFullStats/>
-                  <ObservationFromNearbyEntities>''' + \
-                    "<Range name='Find' xrange='{}'  yrange='{}'  zrange='{}' />".format(SIZE, 2, SIZE) + \
-                  '''</ObservationFromNearbyEntities>
+                  <ObservationFromNearbyEntities>
+                    <Range name="Entities" xrange="50" yrange="50" zrange="50"/>
+                  </ObservationFromNearbyEntities>
                   <AbsoluteMovementCommands/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
                   <InventoryCommands/>
@@ -220,6 +220,7 @@ while world_state.is_mission_running:
 
     commands = reader.Reader().getDict()
     steve = SteveControls.SteveControls(agent_host)
+    
     print("commands:", commands)
     animalList = ["pig", "cow", "sheep", "chicken", "horse"]
     for command, entity in commands.items():
@@ -281,4 +282,3 @@ while world_state.is_mission_running:
 print()
 print("Mission ended")
 # Mission has ended.
-
