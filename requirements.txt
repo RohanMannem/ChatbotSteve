@@ -1,2 +1,4 @@
 inflect
 nltk
+allennlp==1.0.0
+allennlp-models==1.0.0
