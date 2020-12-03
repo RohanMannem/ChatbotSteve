@@ -1,4 +1,3 @@
 inflect
 nltk
-spaCy==2.0.13
-neuralcoref --no-binary neuralcoref
+stanfordnlp
