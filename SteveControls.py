@@ -42,43 +42,49 @@ class SteveControls:
             self.agent.sendCommand("turn 0")
 
     def attack(self, times = 1):
+        self.agent.sendCommand("hotbar.1 1")
+        self.agent.sendCommand("hotbar.1 0")
         for i in range(times):
             self.agent.sendCommand("attack 1")
             time.sleep(0.55)
         self.agent.sendCommand("attack 0")
 
-    def kill(self, animal):
+    
+    def getNum(self, animal):
         total = 0
-        for a in self.getSteve()[1]:
-            if a['name'].lower() == animal:
+        for i in self.getSteve()[0]:
+            if i['name'].lower() == animal.lower():
                 total += 1
-        if total <= 0:
-            return
+        return total
+
+    
+    def kill(self, animal):
+        animalNum = self.getNum(animal)
+        self.agent.sendCommand("hotbar.1 1")
+        self.agent.sendCommand("hotbar.1 0")
         while True:
-            self.findAnimal(animal)
-            self.agent.sendCommand('setPitch 50')
-            time.sleep(0.1)
-            self.agent.sendCommand("attack 1")
-            time.sleep(0.1)
-            self.agent.sendCommand('setPitch 0')
-            self.agent.sendCommand("attack 0")
-            time.sleep(0.1)
-            tempTotal = 0
-            for a in self.getSteve()[1]:
-                if a['name'].lower() == animal:
-                    tempTotal+= 1
-            if tempTotal != total:
+            currentNum = self.getNum(animal)
+            if currentNum <= animalNum - 1:
                 break
-        self.agent.sendCommand('setPitch 0')
+            else:
+                self.findAnimal(animal)
+                time.sleep(0.1)
+                self.agent.sendCommand('setPitch 50')
+                time.sleep(0.1)
+                self.agent.sendCommand("attack 1")
+                time.sleep(0.1)
+                self.agent.sendCommand('setPitch 0')
+                time.sleep(0.1)
+                self.agent.sendCommand("attack 0")
+                time.sleep(0.1)
+                self.agent.sendCommand('setPitch 0')
+        return
 
 
     def getSteve(self):
         lastWorldState = self.agent.peekWorldState()
-        if lastWorldState.number_of_observations_since_last_state > 0:
-            observation = json.loads(lastWorldState.observations[-1].text)
-            AnimalPosition = observation["Find"]
-            #print(observation)
-        return [observation, AnimalPosition]
+        observation = json.loads(lastWorldState.observations[-1].text)
+        return [observation["Entities"]]
 
     def findWater(self):
         steve = self.getSteve()[0]
@@ -113,7 +119,7 @@ class SteveControls:
 
     def findAnimal(self, animal, num=1):
         while True:
-            entitiesInfor = self.getSteve()[1]
+            entitiesInfor = self.getSteve()[0]
             steve = entitiesInfor[0]
 
             diffX = 0
@@ -165,7 +171,7 @@ class SteveControls:
                     break
 
                 currSteve = self.getSteve()
-                animalPosition = currSteve[1]
+                animalPosition = currSteve[0]
 
                 for animalDict in animalPosition:
                     print(animalDict) # Look for the one with name = unknown
@@ -179,7 +185,7 @@ class SteveControls:
         while True:
             self.findAnimal("horse")
             steve = self.getSteve()
-            steve = steve[1]
+            steve = steve[0]
             
             for entity in steve:
                 if entity["name"] == "SteveWhisperer":
