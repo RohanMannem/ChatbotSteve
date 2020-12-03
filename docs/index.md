@@ -3,6 +3,7 @@ layout: default
 title:  Home
 ---
 
+
 Sample Input: "find a chicken, then kill two pigs, finally jump 5"
 ---
 <iframe width="560" height="315" src="https://www.youtube.com/embed/XkKWG6TtY-c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -10,7 +11,6 @@ Sample Input: "find a chicken, then kill two pigs, finally jump 5"
 Test Coreference Resolution
 ---
 <iframe width="560" height="315" src="https://www.youtube.com/embed/nMv0uT_Y1SY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
 
 
 ![alt text](https://cdn.vox-cdn.com/thumbor/ipajjnzaEyDK1badzdbQ32MSxVI=/0x0:767x431/1200x800/filters:focal(323x155:445x277)/cdn.vox-cdn.com/uploads/chorus_image/image/63226878/0fe20042_0bb8_4781_82f4_7130f928b021.0.jpg)
