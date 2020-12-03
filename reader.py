@@ -3,6 +3,12 @@ from collections import defaultdict
 import word2int as convert
 import inflect
 import spellCheck
+import warnings
+import spacy
+
+
+warnings.filterwarnings("ignore")
+nlp = spacy.load('en_coref_sm') # load small size coreference resolution model 
 
 # nltk.download('punkt')
 # nltk.download('averaged_perceptron_tagger')
@@ -13,7 +19,8 @@ import spellCheck
 class Reader:
     def __init__(self):
         command = input("enter your command: ")
-        command = command.lower()
+        command = nlp(command)  # coreference resolution
+        command = str(command._.coref_resolved).lower()
 
         spellChecker = spellCheck.spellCheck()
         spellCheckedCommand = ""

@@ -42,6 +42,8 @@ class SteveControls:
             self.agent.sendCommand("turn 0")
 
     def attack(self, times = 1):
+        self.agent.sendCommand("hotbar.1 1")
+        self.agent.sendCommand("hotbar.1 0")
         for i in range(times):
             self.agent.sendCommand("attack 1")
             time.sleep(0.55)
@@ -58,6 +60,8 @@ class SteveControls:
     
     def kill(self, animal):
         animalNum = self.getNum(animal)
+        self.agent.sendCommand("hotbar.1 1")
+        self.agent.sendCommand("hotbar.1 0")
         while True:
             currentNum = self.getNum(animal)
             if currentNum <= animalNum - 1:
