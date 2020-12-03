@@ -1,5 +1,4 @@
 inflect
 nltk
-bs4
-neuralcoref
+pip install neuralcoref --no-binary neuralcoref
 spacy
