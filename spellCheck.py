@@ -7,6 +7,7 @@ class spellCheck:
     
     def __init__(self):
         self.WORDS = Counter(self.words(open('minecraftWords.txt').read()))
+        self.WORDS += Counter(self.words(open('MinecraftPlayerGuide.txt').read()))
 
     def words(self, text): 
         return re.findall(r'\w+', text.lower())
