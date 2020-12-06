@@ -56,12 +56,12 @@ if __name__ == "__main__":
             for i in range(len(command)):
                 for j in range(len(command)):
                     if i != j and j > i:
-                        if command[i] != " " and command[j] != " ":
+                        if command[i] != " " and command[j] != " " and not command[j].isdigit() and not command[i].isdigit():
                             command = command[:i] + letter + command[i + 1:j] + letter + command[j + 1:]
                             doubleTypos.append(command)
                             command = trueCommand
                     if i != j and i > j:
-                        if command[i] != " " and command[j] != " ":
+                        if command[i] != " " and command[j] != " " and not command[j].isdigit() and not command[i].isdigit():
                             command = command[:j] + letter + command[j + 1:i] + letter + command[i + 1:]
                             doubleTypos.append(command)
                             command = trueCommand
