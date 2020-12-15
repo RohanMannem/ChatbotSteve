@@ -21,11 +21,15 @@ class Reader:
     def __init__(self):
         command = input("enter your command: ")
         articles = ["them", "it"]
-        if any(article in command for article in articles):
-            command = nlp(command)  # coreference resolution
-            command = str(command._.coref_resolved).lower()
-        else:
-            command.lower()
+
+        command = nlp(command)  
+        # print("Has coref: ", command._.has_coref)
+
+        if command._.has_coref: # check if have coreference 
+            command = str(command._.coref_resolved) # coreference resolution
+
+        command.lower()
+
 
         spellChecker = spellCheck.spellCheck()
         spellCheckedCommand = ""
