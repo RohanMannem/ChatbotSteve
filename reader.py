@@ -20,9 +20,15 @@ nlp = spacy.load('en_coref_sm') # load small size coreference resolution model
 class Reader:
     def __init__(self):
         command = input("enter your command: ")
-        command = nlp(command)  # coreference resolution
-        command = str(command._.coref_resolved).lower()
+        articles = ["them", "it"]
 
+        command = nlp(command)  
+        # print("Has coref: ", command._.has_coref)
+
+        if command._.has_coref: # check if have coreference 
+            command = str(command._.coref_resolved) # coreference resolution
+
+        command.lower()
 
         spellChecker = spellCheck.spellCheck()
         spellCheckedCommand = ""
@@ -32,8 +38,6 @@ class Reader:
                 spellCheckedCommand += spellChecker.correction(commandSpellCheck[i]) + " "
         if (commandSpellCheck[len(commandSpellCheck) - 1]):
             spellCheckedCommand += spellChecker.correction(commandSpellCheck[len(commandSpellCheck) - 1])
-        print(command)
-        print(spellCheckedCommand)
 
         command = "I want you to " + spellCheckedCommand
         self.tags = command
