@@ -27,6 +27,8 @@ class Reader:
 
         if command._.has_coref: # check if have coreference 
             command = str(command._.coref_resolved) # coreference resolution
+        else:
+            command = str(command)
 
         command.lower()
 
