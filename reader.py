@@ -30,6 +30,7 @@ class Reader:
 
         command.lower()
 
+
         spellChecker = spellCheck.spellCheck()
         spellCheckedCommand = ""
         commandSpellCheck = command.split(" ")
