@@ -96,7 +96,7 @@ coreference in the input. If there is, the doc._.coref_resolved function returns
 below illustrates that our model achieves the goal of coreference resolution.
 </p>
 
-<img src="images/2.jpg" width="800" height="350"/>
+<img src="images/2.png" width="950" height="350"/>
 
 <p>
 Finally, to ensure that the singular and plural forms of words wouldn’t cause any confusion, we implemented an inflect engine to effectively convert plural target objects into singular forms.
@@ -106,7 +106,7 @@ Finally, to ensure that the singular and plural forms of words wouldn’t cause 
 After creating our dictionary of verb/action, noun/object groups, we iterate through all the actions and their respective nouns. Each action has their own function and each noun is designated to an object in Malmo. All nouns and integers, if specified by the player, will be passed to the verb function as a parameter. For example, the command “find a pig” would equate to find(pig) in code. A command of “feed 5 cows and kill them” would run feed(cow, 5) then kill(cow, 5). Below is a table of all the functions and parameters we have implemented.
 </p>
 
-<img src="images/3.png" width="1100" height="500"/>
+<img src="images/3.png" width="1100" height="450"/>
 
 <h2>Evaluations</h2>
 <h3>Quantitative Evaluations</h3>
@@ -174,7 +174,7 @@ This table shows the results of this test, with the first column showing the wor
 The second qualitative test is mainly about coreference. We randomly form 680 different commands that have Coreference in it. For example, for input “find a pig and kill it”, NLTK will return [(‘find’, VB), (‘a’, DT), (‘pig’, NN), (‘and’, CC), (‘kill’, VB), (‘a’, DT), (‘pig’, NN)]. Or input “find four horses and feed them, feed two cows and kill them”, the NLTK will return [(‘find’, VB), (‘four’, CD), (‘horses’, NNS), (‘and’, CC), (‘feed’, VB), (‘four’, CD), (‘horses’, NNS), (‘feed’, VBP), (‘two’, CD), (‘cows’, NNS), (‘and’, CC), (‘kill’, VB), (‘two’, CD), (‘cows’, NNS)]
 </p>
 
-<img src="images/12.png" width="1300" height="500"/>
+<img src="images/12.png" width="1100" height="500"/>
 
 <p>
 VB: verb(base form),  VBN: verb(past tense), VBP: verb(sing. present, non-3d), NN: noun(singular), NNS: noun(plural), JJ: adjective, CC: coordinating conjunction, RB: adverb, PRP: personal pronoun
