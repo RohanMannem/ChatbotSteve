@@ -77,7 +77,7 @@ there are pronouns in the user input. The image below shows that we needed to re
 such as “it”, “them”, etc.
 </p>
 
-![](/images/1.png)
+![](/images/1.png =600x350)
 
 <p>
 To solve this problem efficiently, our approach was to use “NeuralCoref” - a state-of-the-art coreference resolution based on neural nets and Spacy. 
