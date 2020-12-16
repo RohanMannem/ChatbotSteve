@@ -77,8 +77,7 @@ there are pronouns in the user input. The image below shows that we needed to re
 such as “it”, “them”, etc.
 </p>
 
-<img src="/images/1.png" width="600" height="350"/>
-
+<img src="images/1.png" width="600" height="350"/>
 
 <p>
 To solve this problem efficiently, our approach was to use “NeuralCoref” - a state-of-the-art coreference resolution based on neural nets and Spacy. 
@@ -97,7 +96,7 @@ coreference in the input. If there is, the doc._.coref_resolved function returns
 below illustrates that our model achieves the goal of coreference resolution.
 </p>
 
-<img src="/images/2.png" width="800" height="350"/>
+<img src="images/2.png" width="800" height="350"/>
 
 <p>
 Finally, to ensure that the singular and plural forms of words wouldn’t cause any confusion, we implemented an inflect engine to effectively convert plural target objects into singular forms.
@@ -107,7 +106,7 @@ Finally, to ensure that the singular and plural forms of words wouldn’t cause 
 After creating our dictionary of verb/action, noun/object groups, we iterate through all the actions and their respective nouns. Each action has their own function and each noun is designated to an object in Malmo. All nouns and integers, if specified by the player, will be passed to the verb function as a parameter. For example, the command “find a pig” would equate to find(pig) in code. A command of “feed 5 cows and kill them” would run feed(cow, 5) then kill(cow, 5). Below is a table of all the functions and parameters we have implemented.
 </p>
 
-<img src="/images/3.png" width="800" height="700"/>
+<img src="images/3.png" width="800" height="700"/>
 
 <h2>Evaluations</h2>
 <h3>Quantitative Evaluations</h3>
@@ -116,7 +115,7 @@ After creating our dictionary of verb/action, noun/object groups, we iterate thr
 Since our project would have a 100% success rate of converting action to function, we implemented a spell checking feature which would automatically correct any misspelled words in the player’s commands. In order to make accurate spell checks, we used Probability Theory to determine the possible candidates for a misspelled word and the quantitative results for misspelling a word. When deciding which possible candidate to use in order to replace the misspelled word, we used Bayes’ Theorem. 
 </p>
 
-<img src="/images/4.png" width="400" height="250"/>
+<img src="images/4.png" width="400" height="250"/>
 
 - P(A) - the probability that the candidate word (A) exists as a word in the text
 - P(B) - the probability which shows how many times word (B) appears in the text
@@ -127,11 +126,11 @@ Since our project would have a 100% success rate of converting action to functio
 Utilizing the Official Minecraft Players Guide as the text to read from, we use the theorem above to determine the highest probabilities and which candidate words they are associated with. Below are results when testing the most common words in our commands:
 </p>
 
-<img src="/images/5.png" width="800" height="500"/>
+<img src="images/5.png" width="800" height="500"/>
 
-<img src="/images/6.png" width="800" height="500"/>
+<img src="images/6.png" width="800" height="500"/>
 
-<img src="/images/7.png" width="800" height="500"/>
+<img src="images/7.png" width="800" height="500"/>
 
 <p>
 These tables show the results for how accurate our spell checker is for the words shown. The first row shows the word we are spell checking. The second row shows the probability the spell checker will correctly spell the word if the word contains one typo. The third row shows the probability the spell checker will correctly spell the word if the word contains two typos. The fourth row shows the combined probability from rows two and three.
@@ -147,19 +146,19 @@ The reason we chose to stop at two typos is because most of the words in our com
 Since we are using NLTK to process the input commands, we intend to test the accuracy of NLTK’s handling of player commands. The process of NLTK to classify words into their parts of speech or command and labeling them accordingly is known as part-of-speech tagging or POS-tagging. While working on our POS-tagging system, we realized that since there are multiple ways to input the same command, we would have to be prepared for various types of inputs which could mean the same thing. For example, “find the pig” would be the same as “find pig”.
 </p>
 
-<img src="/images/8.png" width="400" height="250"/>
+<img src="images/8.png" width="400" height="250"/>
 
 <p>
 While our POS-tagging system works for smaller commands such as above, we were still unable to figure out how to completely and accurately POS-tag more complex commands such as below. The variations of conjunctions and commas cause our POS-tag to be thrown off slightly. Our findings are talked more in depth in the following qualitative tests.
 </p>
 
-<img src="/images/9.png" width="800" height="250"/>
+<img src="images/9.png" width="800" height="250"/>
 
 <p>
 Our first qualitative test did not include any Coreference inputs. Our test command set has two types of commands and a total of 684 commands. The first is a one verb and one direct object, for example, “feed a pig” or “find three sheep”. The second form consists of two verbs and two direct objects, both actions and animals can be repeated, for example, “find 6 pigs and kill two chickens” or “find a sheep and kill a fish”.
 </p>
 
-<img src="/images/10.png" width="700" height="500"/>
+<img src="images/10.png" width="700" height="500"/>
 
 <p>
 VB: verb(base form),  VBN: verb(past tense), NN: noun(singular), NNS: noun(plural), JJ: adjective, CC: coordinating conjunction
@@ -169,13 +168,13 @@ VB: verb(base form),  VBN: verb(past tense), NN: noun(singular), NNS: noun(plura
 This table shows the results of this test, with the first column showing the words that appear in the test, and the second column showing the part of speech of each of the words that NLTK returns after input test Command into NLTK. For example, if the input is “find a pig and feed a cow”, the NLTK will return [(‘find’, VB), (‘a’, DT), (‘pig’, NN), (‘and’, CC), (‘feed’, VB), (‘a’, DT), (‘cow’, NN)]. Also, after the possible part of speech of each word, there is a parentheses which show the probability and number of times the current word is judged to be that part of speech. From the table above, we found that most of the results were correct, for example, the word “find” was correctly identified as the verb and “horses” was correctly identified as the plural of the noun every time. However, there were three words that were still wrongly identified as incorrect parts of speech. “Feed” was identified as a verb in past tense at 8% and noun at 6.5%, the reason for that is that the past tense of feed is the same as the base form, and feed could have been a noun, which exists in English in rare cases. But for the word “sheep” and “fish”, neither of them could be used as an adjective, the NLTK identified them as JJ(adjective) at 14.7% and 48% respectively. Here are two examples of the error. In the first example, we input “find 10 fish”, but the NLTK assigns fish as JJ(adjective). Also, in the second example, we input “find 10 sheep and feed a fish”, the NLTK assigns sheep as JJ(adjective).  Our hypothesis is that NLTK might try to relate “fish” to the adjective, “fishy”.
 </p>
 
-<img src="/images/11.png" width="700" height="500"/>
+<img src="images/11.png" width="700" height="500"/>
 
 <p>
 The second qualitative test is mainly about coreference. We randomly form 680 different commands that have Coreference in it. For example, for input “find a pig and kill it”, NLTK will return [(‘find’, VB), (‘a’, DT), (‘pig’, NN), (‘and’, CC), (‘kill’, VB), (‘a’, DT), (‘pig’, NN)]. Or input “find four horses and feed them, feed two cows and kill them”, the NLTK will return [(‘find’, VB), (‘four’, CD), (‘horses’, NNS), (‘and’, CC), (‘feed’, VB), (‘four’, CD), (‘horses’, NNS), (‘feed’, VBP), (‘two’, CD), (‘cows’, NNS), (‘and’, CC), (‘kill’, VB), (‘two’, CD), (‘cows’, NNS)]
 </p>
 
-<img src="/images/11.png" width="700" height="500"/>
+<img src="images/12.png" width="700" height="500"/>
 
 <p>
 VB: verb(base form),  VBN: verb(past tense), VBP: verb(sing. present, non-3d), NN: noun(singular), NNS: noun(plural), JJ: adjective, CC: coordinating conjunction, RB: adverb, PRP: personal pronoun
