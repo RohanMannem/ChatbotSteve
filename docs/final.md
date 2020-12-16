@@ -96,22 +96,98 @@ coreference in the input. If there is, the doc._.coref_resolved function returns
 below illustrates that our model achieves the goal of coreference resolution.
 </p>
 
-
+![](/images/2.jpg)
 
 <p>
+Finally, to ensure that the singular and plural forms of words wouldn’t cause any confusion, we implemented an inflect engine to effectively convert plural target objects into singular forms.
 </p>
 
 <p>
+After creating our dictionary of verb/action, noun/object groups, we iterate through all the actions and their respective nouns. Each action has their own function and each noun is designated to an object in Malmo. All nouns and integers, if specified by the player, will be passed to the verb function as a parameter. For example, the command “find a pig” would equate to find(pig) in code. A command of “feed 5 cows and kill them” would run feed(cow, 5) then kill(cow, 5). Below is a table of all the functions and parameters we have implemented.
+</p>
+
+![](/images/3.png)
+
+<h2>Evaluations</h2>
+<h3>Quantitative Evaluations</h3>
+
+<p>
+Since our project would have a 100% success rate of converting action to function, we implemented a spell checking feature which would automatically correct any misspelled words in the player’s commands. In order to make accurate spell checks, we used Probability Theory to determine the possible candidates for a misspelled word and the quantitative results for misspelling a word. When deciding which possible candidate to use in order to replace the misspelled word, we used Bayes’ Theorem. 
+</p>
+
+![](/images/4.png)
+
+- P(A) - the probability that the candidate word (A) exists as a word in the text
+- P(B) - the probability which shows how many times word (B) appears in the text
+- P(B|A) - the probability that word (B) would be typed when the player meant word (A)
+- P(A|B) - the probability for each candidate word (A) given word (B)
+
+<p>
+Utilizing the Official Minecraft Players Guide as the text to read from, we use the theorem above to determine the highest probabilities and which candidate words they are associated with. Below are results when testing the most common words in our commands:
+</p>
+
+![](/images/5.png)
+
+![](/images/6.png)
+
+![](/images/7.png)
+
+<p>
+These tables show the results for how accurate our spell checker is for the words shown. The first row shows the word we are spell checking. The second row shows the probability the spell checker will correctly spell the word if the word contains one typo. The third row shows the probability the spell checker will correctly spell the word if the word contains two typos. The fourth row shows the combined probability from rows two and three.
 </p>
 
 <p>
+The reason we chose to stop at two typos is because most of the words in our commands are only four letters long. Furthermore, we also have a few three letter words. If a player were to make three typos in a single word, most of the time, this would result in an entirely new word. For example, three typos in the word “pig” could possibly be “cow”, which is incorrect in terms of the player’s command but correct in the terms of spell checking to a word that actually exists. This also explains why the error rate for certain words is a lot lower for certain words. For example, the word “pig” drops from a 55% success rate to only a 5% success rate when introducing another typo. On the other hand, the word “chicken” drops from a 100% success rate to a still-very-high 99% success rate. This is because the ratio of typos to length of word is drastically different between the two. While in the word “chicken”, two letters make up 28% of the word; in the word “pig”, two letters make up 67% of the word.
+</p>
+
+<h3>Qualitative Evaluations</h3>
+
+<p>
+Since we are using NLTK to process the input commands, we intend to test the accuracy of NLTK’s handling of player commands. The process of NLTK to classify words into their parts of speech or command and labeling them accordingly is known as part-of-speech tagging or POS-tagging. While working on our POS-tagging system, we realized that since there are multiple ways to input the same command, we would have to be prepared for various types of inputs which could mean the same thing. For example, “find the pig” would be the same as “find pig”.
+</p>
+
+![](/images/8.png)
+
+<p>
+While our POS-tagging system works for smaller commands such as above, we were still unable to figure out how to completely and accurately POS-tag more complex commands such as below. The variations of conjunctions and commas cause our POS-tag to be thrown off slightly. Our findings are talked more in depth in the following qualitative tests.
+</p>
+
+![](/images/9.png)
+
+<p>
+Our first qualitative test did not include any Coreference inputs. Our test command set has two types of commands and a total of 684 commands. The first is a one verb and one direct object, for example, “feed a pig” or “find three sheep”. The second form consists of two verbs and two direct objects, both actions and animals can be repeated, for example, “find 6 pigs and kill two chickens” or “find a sheep and kill a fish”.
+</p>
+
+![](/images/10.png)
+
+<p>
+VB: verb(base form),  VBN: verb(past tense), NN: noun(singular), NNS: noun(plural), JJ: adjective, CC: coordinating conjunction
 </p>
 
 <p>
+This table shows the results of this test, with the first column showing the words that appear in the test, and the second column showing the part of speech of each of the words that NLTK returns after input test Command into NLTK. For example, if the input is “find a pig and feed a cow”, the NLTK will return [(‘find’, VB), (‘a’, DT), (‘pig’, NN), (‘and’, CC), (‘feed’, VB), (‘a’, DT), (‘cow’, NN)]. Also, after the possible part of speech of each word, there is a parentheses which show the probability and number of times the current word is judged to be that part of speech. From the table above, we found that most of the results were correct, for example, the word “find” was correctly identified as the verb and “horses” was correctly identified as the plural of the noun every time. However, there were three words that were still wrongly identified as incorrect parts of speech. “Feed” was identified as a verb in past tense at 8% and noun at 6.5%, the reason for that is that the past tense of feed is the same as the base form, and feed could have been a noun, which exists in English in rare cases. But for the word “sheep” and “fish”, neither of them could be used as an adjective, the NLTK identified them as JJ(adjective) at 14.7% and 48% respectively. Here are two examples of the error. In the first example, we input “find 10 fish”, but the NLTK assigns fish as JJ(adjective). Also, in the second example, we input “find 10 sheep and feed a fish”, the NLTK assigns sheep as JJ(adjective).  Our hypothesis is that NLTK might try to relate “fish” to the adjective, “fishy”.
+</p>
+
+![](/images/11.png)
+
+<p>
+The second qualitative test is mainly about coreference. We randomly form 680 different commands that have Coreference in it. For example, for input “find a pig and kill it”, NLTK will return [(‘find’, VB), (‘a’, DT), (‘pig’, NN), (‘and’, CC), (‘kill’, VB), (‘a’, DT), (‘pig’, NN)]. Or input “find four horses and feed them, feed two cows and kill them”, the NLTK will return [(‘find’, VB), (‘four’, CD), (‘horses’, NNS), (‘and’, CC), (‘feed’, VB), (‘four’, CD), (‘horses’, NNS), (‘feed’, VBP), (‘two’, CD), (‘cows’, NNS), (‘and’, CC), (‘kill’, VB), (‘two’, CD), (‘cows’, NNS)]
+</p>
+
+![](/images/12.png)
+
+<p>
+VB: verb(base form),  VBN: verb(past tense), VBP: verb(sing. present, non-3d), NN: noun(singular), NNS: noun(plural), JJ: adjective, CC: coordinating conjunction, RB: adverb, PRP: personal pronoun
 </p>
 
 <p>
+The table shows the accuracy of assigning POS by NLTK, comparing with the test without Coreference, the accuracy of most words were decreased. For example, “feed” was assigned as a noun at 24.5% at this table, which increased about 18% from the first test table. Also, the animal words like “pig” and “chicken” were identified as JJ(adjective) at 3.8% and 12% respectively in this test. Based on the code we used earlier to handle Coreference, it turns “it” and “them” into their corresponding actions and target animals, which means that there should not have “it” or “them” in the table. But “them” appeared 5 times.
 </p>
 
-
-
+<h2>References</h2>
+- [Malmo XML Schema Documentation](http://microsoft.github.io/malmo/0.30.0/Schemas/Mission.html)
+- [Natural Language Toolkit](https://www.nltk.org/)
+- [inflect](https://pypi.org/project/inflect/)
+- [word2number library](https://pypi.org/project/word2number/)
+- [Neural Coreference for Chatbots](https://medium.com/huggingface/state-of-the-art-neural-coreference-resolution-for-chatbots-3302365dcf30)
+- [Norvig Spelling Corrector](https://norvig.com/spell-correct.html)
