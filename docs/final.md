@@ -6,7 +6,7 @@ title: Final Report
 <h2>Final Video</h2>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mslOyz09SFg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<h3>[ChatbotSteve GitHub Code](https://github.com/RohanMannem/ChatbotSteve)</h3>
+[ChatbotSteve GitHub](https://github.com/RohanMannem/ChatbotSteve)
 
 <h2>Project Summary</h2>
 <p> Minecraft is a video game in which players can create and break apart various types of blocks in a 3-dimensional world. Our project, ChatbotSteve, allows 
